@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50 text-slate-900">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Integrity & Anti-Ragging Portal | UGC & AICTE Compliant</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbar and animations */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.02); }
+    }
+    .pulse-alert {
+      animation: pulse-subtle 2s infinite ease-in-out;
+    }
+    
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #print-report-container, #print-report-container * {
+        visibility: visible;
+      }
+      #print-report-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-slate-50 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- 24x7 Statutory Emergency Toll-Free Alert Bar -->
+  <div class="bg-rose-900 text-rose-100 text-xs sm:text-sm px-4 py-2 border-b border-rose-800">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2 font-medium">
+        <span class="inline-flex items-center justify-center p-1 bg-rose-800 rounded text-rose-200">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-rose-300"></i>
+        </span>
+        <span><strong>National Anti-Ragging 24x7 Toll-Free Helpline:</strong> 1800-180-5522 | Direct Ombudsman Cell: +91 94220-00100</span>
+      </div>
+      <div class="flex items-center gap-3 text-xs">
+        <span id="db-status-pill" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-900/60 border border-slate-700 text-emerald-400 font-mono text-[10px]">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          MySQL Live
+        </span>
+        <button onclick="emergencySOSModal()" class="font-bold underline hover:text-white transition-colors cursor-pointer">
+          Emergency Distress SOS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Header & Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+        
+        <!-- Logo and Institute Badge -->
+        <div class="flex items-center gap-3 shrink-0">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-brand-700 via-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+            <i data-lucide="scale" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 text-base sm:text-lg tracking-tight">Apex Institute of Technology</span>
+              <span class="hidden md:inline-flex items-center px-2 py-0.5 text-[10px] font-semibold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-200 rounded">
+                Autonomous
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 font-medium">Campus Integrity, Vigilance & Anti-Ragging Council</p>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Tabs -->
+        <nav class="hidden lg:flex items-center p-1.5 bg-slate-100/80 rounded-xl border border-slate-200">
+          <button id="tab-btn-submit" onclick="switchTab('submit')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all text-brand-700 bg-white shadow-sm cursor-pointer">
+            <i data-lucide="graduation-cap" class="w-4 h-4" id="nav-student-icon"></i>
+            <span>Student Portal</span>
+            <span id="nav-student-status-badge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-200 text-slate-700">Login Required</span>
+          </button>
+          
+          <button id="tab-btn-admin" onclick="switchTab('admin')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
+            <i data-lucide="shield-check" class="w-4 h-4" id="nav-admin-icon"></i>
+            <span>Admin Panel</span>
+            <span id="nav-admin-status-badge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-200 text-slate-700">Login Required</span>
+            <span id="nav-pending-badge" class="hidden px-1.5 py-0.2 bg-rose-500 text-white text-[10px] font-bold rounded-full"></span>
+          </button>
+
+          <button id="tab-btn-track" onclick="switchTab('track')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
+            <i data-lucide="search-check" class="w-4 h-4"></i>
+            <span>Track Grievance</span>
+          </button>
+        </nav>
+
+        <!-- Right Side: Separate Student & Admin Login Controls -->
+        <div class="flex items-center gap-2">
+          
+          <!-- When Logged Out: Show Separate Student and Admin Login Buttons -->
+          <div id="auth-logged-out-buttons" class="flex items-center gap-2">
+            <button onclick="switchTab('submit')" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-xl transition shadow-sm cursor-pointer">
+              <i data-lucide="graduation-cap" class="w-4 h-4 text-brand-600"></i>
+              <span>Student Login</span>
+            </button>
+            <button onclick="switchTab('admin')" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl transition shadow-sm cursor-pointer">
+              <i data-lucide="shield-lock" class="w-4 h-4 text-indigo-600"></i>
+              <span>Admin Login</span>
+            </button>
+          </div>
+
+          <!-- When Logged In: Show User Profile Badge and Logout -->
+          <div id="auth-logged-in-profile" class="hidden items-center gap-2">
+            <div id="profile-role-pill" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 flex items-center gap-2">
+              <span id="profile-role-badge" class="p-1 rounded-lg bg-brand-100 text-brand-700">
+                <i data-lucide="graduation-cap" class="w-3.5 h-3.5" id="profile-role-icon"></i>
+              </span>
+              <div class="text-left text-xs leading-none">
+                <span id="profile-user-name" class="font-bold text-slate-800 block truncate max-w-[130px]">User</span>
+                <span id="profile-user-role" class="text-[10px] text-slate-500 font-semibold uppercase">Student</span>
+              </div>
+            </div>
+            <button onclick="handleUserLogout()" title="Sign Out Session" class="px-2.5 py-1.5 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl transition flex items-center gap-1 cursor-pointer">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Sign Out</span>
+            </button>
+          </div>
+
+          <button onclick="openHelpModal()" class="hidden sm:inline-flex items-center p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition" title="UGC Regulations">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile Tabs Row -->
+      <div class="flex lg:hidden border-t border-slate-100 py-2 gap-1 overflow-x-auto">
+        <button id="mob-tab-btn-submit" onclick="switchTab('submit')" class="flex-1 py-1.5 px-2 text-xs font-semibold rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center gap-1.5">
+          <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>
+          <span>Student Portal</span>
+        </button>
+        <button id="mob-tab-btn-admin" onclick="switchTab('admin')" class="flex-1 py-1.5 px-2 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-100 flex items-center justify-center gap-1.5">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>Admin Panel</span>
+        </button>
+        <button id="mob-tab-btn-track" onclick="switchTab('track')" class="flex-1 py-1.5 px-2 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-100 flex items-center justify-center gap-1.5">
+          <i data-lucide="search-check" class="w-3.5 h-3.5"></i>
+          <span>Track</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Global Main Content Wrapper -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: STUDENT PORTAL (REPORTING FORM & MY GRIEVANCES) -->
+    <!-- ======================================================== -->
+    <section id="view-submit" class="space-y-6">
+      
+      <!-- ======================================================== -->
+      <!-- GATE 1: DEDICATED STUDENT LOGIN & REGISTRATION PANEL -->
+      <!-- (Visible when user is NOT authenticated) -->
+      <!-- ======================================================== -->
+      <div id="studentLoginGate" class="max-w-md mx-auto my-8 bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-8 space-y-6">
+        <div class="text-center space-y-2">
+          <div class="w-16 h-16 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center mx-auto shadow-inner">
+            <i data-lucide="graduation-cap" class="w-8 h-8 text-brand-600"></i>
+          </div>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Student Portal Login</h2>
+          <p class="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
+            Authentication required. Sign in with your registered college credentials to lodge grievances and view tracking records.
+          </p>
+        </div>
+
+        <!-- Tab Switcher: Sign In vs New Register -->
+        <div class="flex p-1 bg-slate-100 rounded-xl">
+          <button id="gate-tab-signin" type="button" onclick="switchStudentGateTab('signin')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-slate-900 transition flex items-center justify-center gap-1.5 cursor-pointer">
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+            <span>Student Sign In</span>
+          </button>
+          <button id="gate-tab-register" type="button" onclick="switchStudentGateTab('register')" class="flex-1 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-1.5 cursor-pointer">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+            <span>New Student Register</span>
+          </button>
+        </div>
+
+        <!-- 1-Click Demo Accounts for Evaluator -->
+        <div class="p-3 bg-brand-50/70 border border-brand-200/80 rounded-xl text-xs space-y-2">
+          <span class="font-bold text-brand-900 block text-[11px] flex items-center gap-1">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-600"></i>
+            1-Click Student Demo Accounts:
+          </span>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="autoFillStudentGate('student@campus.edu.in', 'student123')" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-brand-100 border border-brand-300 font-semibold text-xs text-slate-800 transition flex items-center gap-1 shadow-sm cursor-pointer">
+              <span>🎓 Rohan V. Sharma</span>
+            </button>
+            <button type="button" onclick="autoFillStudentGate('ananya@campus.edu.in', 'student123')" class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-brand-100 border border-brand-300 font-semibold text-xs text-slate-800 transition flex items-center gap-1 shadow-sm cursor-pointer">
+              <span>🎓 Ananya Deshmukh</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SIGN IN FORM -->
+        <form id="studentGateSignInForm" onsubmit="handleStudentGateLogin(event)" class="space-y-4">
+          <div>
+            <label for="studentGateEmail" class="block text-xs font-semibold text-slate-700 mb-1">
+              Institutional College Email
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </span>
+              <input type="email" id="studentGateEmail" required placeholder="student@campus.edu.in" 
+                class="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+            </div>
+          </div>
+
+          <div>
+            <label for="studentGatePassword" class="block text-xs font-semibold text-slate-700 mb-1">
+              Account Password
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+              </span>
+              <input type="password" id="studentGatePassword" required placeholder="••••••••" 
+                class="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+            </div>
+          </div>
+
+          <div id="studentGateError" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-1.5">
+            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+            <span id="studentGateErrorText">Invalid student credentials.</span>
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-brand-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="key" class="w-4 h-4"></i>
+            <span>Authenticate & Unlock Student Portal</span>
+          </button>
+        </form>
+
+        <!-- REGISTRATION FORM -->
+        <form id="studentGateRegisterForm" onsubmit="handleStudentGateRegister(event)" class="hidden space-y-3">
+          <div>
+            <label for="gateRegName" class="block text-xs font-semibold text-slate-700 mb-0.5">Full Student Name</label>
+            <input type="text" id="gateRegName" required placeholder="e.g. Vikramaditya Patil" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 bg-white">
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label for="gateRegPrn" class="block text-xs font-semibold text-slate-700 mb-0.5">ERP / PRN Number</label>
+              <input type="text" id="gateRegPrn" required placeholder="PRN-2025-77102" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 font-mono bg-white">
+            </div>
+            <div>
+              <label for="gateRegEmail" class="block text-xs font-semibold text-slate-700 mb-0.5">College Email</label>
+              <input type="email" id="gateRegEmail" required placeholder="vikram.p@campus.edu.in" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 bg-white">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label for="gateRegDept" class="block text-xs font-semibold text-slate-700 mb-0.5">Department</label>
+              <select id="gateRegDept" required class="w-full px-2.5 py-2 text-xs rounded-xl border border-slate-300 bg-white font-medium">
+                <option value="Computer Engineering">Computer Engg</option>
+                <option value="Information Technology">IT</option>
+                <option value="Mechanical Engineering">Mechanical</option>
+                <option value="Civil Engineering">Civil</option>
+                <option value="Electronics & Telecom">ENTC</option>
+              </select>
+            </div>
+            <div>
+              <label for="gateRegYear" class="block text-xs font-semibold text-slate-700 mb-0.5">Year & Div</label>
+              <select id="gateRegYear" required class="w-full px-2.5 py-2 text-xs rounded-xl border border-slate-300 bg-white font-medium">
+                <option value="FE (First Year)">FE - Div A</option>
+                <option value="SE (Second Year)">SE - Div B</option>
+                <option value="TE (Third Year)">TE - Div A</option>
+                <option value="BE (Final Year)">BE - Div B</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="gateRegPassword" class="block text-xs font-semibold text-slate-700 mb-0.5">Account Password</label>
+            <input type="password" id="gateRegPassword" required placeholder="••••••••" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 bg-white">
+          </div>
+
+          <div id="gateRegError" class="hidden p-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+            Registration failed.
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="user-check" class="w-4 h-4"></i>
+            <span>Create Student Account & Save to MySQL</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- GATE 2: MUTUAL EXCLUSIVITY CONFLICT GATE -->
+      <!-- (Visible when user is currently authenticated as ADMIN) -->
+      <!-- ======================================================== -->
+      <div id="studentRoleConflictGate" class="max-w-md mx-auto my-12 bg-white rounded-3xl border border-amber-200 shadow-xl p-8 space-y-6 text-center hidden">
+        <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto shadow-inner">
+          <i data-lucide="shield-alert" class="w-8 h-8 text-amber-600"></i>
+        </div>
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            Active Administrator Session Detected
+          </span>
+          <h2 class="text-xl font-extrabold text-slate-900 tracking-tight mt-3">Student Portal Restricted</h2>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            You are currently authenticated in the <strong>Admin Panel</strong> as <strong id="studentConflictAdminName" class="text-slate-900">Dr. S. K. Kulkarni</strong>.
+          </p>
+          <div class="p-3 my-3 bg-rose-50 border border-rose-200 rounded-xl text-left text-xs text-rose-800 flex items-start gap-2">
+            <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <p class="leading-relaxed">
+              <strong>Strict Mutual Exclusivity Rule:</strong> By statutory integrity policies, administrators cannot lodge student grievances or operate the student portal while logged in. No user can access both panels at the same time.
+            </p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="logoutAndSwitch('submit')" class="w-full py-3 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-brand-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            <span>Log Out Admin & Open Student Login</span>
+          </button>
+          <button onclick="switchTab('admin')" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition cursor-pointer">
+            Return to Admin Panel
+          </button>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- UNLOCKED STUDENT PORTAL CONTENT (When logged in as STUDENT) -->
+      <!-- ======================================================== -->
+      <div id="studentPortalContent" class="space-y-6 hidden">
+
+        <!-- Student Dashboard Sub-Navigation (When Logged in as Student) -->
+        <div id="student-portal-tabs" class="bg-white p-2 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between gap-4 flex-wrap">
+          <div class="flex items-center gap-2">
+            <button id="student-subtab-form-btn" onclick="switchStudentSubTab('form')" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-sm flex items-center gap-1.5 transition">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Lodge New Grievance</span>
+            </button>
+            <button id="student-subtab-history-btn" onclick="switchStudentSubTab('history')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-1.5 transition">
+              <i data-lucide="folder-clock" class="w-4 h-4"></i>
+              <span>My Lodged Grievances (<span id="student-my-count">0</span>)</span>
+            </button>
+          </div>
+          <div class="text-xs text-slate-500 flex items-center gap-2 pr-2">
+            <span class="inline-flex w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>Logged in as Verified Student: <strong id="student-subtab-name" class="text-slate-800">Rohan V. Sharma</strong></span>
+          </div>
+        </div>
+
+      <!-- STUDENT SUB-VIEW B: MY LODGED GRIEVANCES LIST -->
+      <div id="student-history-container" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="folder-heart" class="w-5 h-5 text-brand-600"></i>
+              My Lodged Grievance History
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">All complaints filed from your authenticated student account stored in MySQL.</p>
+          </div>
+          <button onclick="switchStudentSubTab('form')" class="px-3 py-1.5 bg-brand-50 text-brand-700 hover:bg-brand-100 rounded-xl text-xs font-bold border border-brand-200 flex items-center gap-1 transition">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>File Another Complaint</span>
+          </button>
+        </div>
+
+        <div id="student-my-complaints-list" class="divide-y divide-slate-100">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- STUDENT SUB-VIEW A: COMPLAINT REPORTING FORM -->
+      <div id="student-form-container" class="space-y-6">
+
+        <!-- Informational Banner -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-brand-950 p-6 sm:p-8 text-white shadow-xl">
+          <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="max-w-3xl relative z-10 space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-200 border border-brand-400/30">
+              <i data-lucide="lock" class="w-3.5 h-3.5 text-brand-300"></i>
+              Strict Whistleblower Protection Act • Zero Retaliation Policy
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Campus Grievance & Anti-Ragging Redressal Portal
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+              Report any form of physical, mental, or academic harassment, bias, or administrative negligence. 
+              Submissions are permanently recorded in <strong>MySQL database</strong> with dual-factor tracking. 
+              <strong>Anonymous reporting guarantees zero collection of your personal identity.</strong>
+            </p>
+            <div class="pt-2 flex flex-wrap gap-4 text-xs text-slate-300">
+              <span class="flex items-center gap-1.5"><i data-lucide="database" class="w-4 h-4 text-emerald-400"></i> MySQL Database Persistence</span>
+              <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Direct Vigilance Committee Escalation</span>
+              <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Anonymous 2-Way Follow-up Chat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Complaint Form Container -->
+        <form id="complaintForm" onsubmit="handleComplaintSubmit(event)" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-8">
+
+          <!-- SECTION 1: Privacy & Protection Toggle -->
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <span class="flex items-center justify-center w-6 h-6 rounded-full bg-brand-100 text-brand-700 text-xs font-bold">1</span>
+                  Privacy Mode & Whistleblower Shield
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Select how your identity should be treated by the anti-ragging squad.</p>
+              </div>
+              <span id="privacy-status-pill" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+                Identified Mode
+              </span>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              <!-- Option A: Identified -->
+              <label class="relative flex p-4 cursor-pointer rounded-xl border border-slate-200 hover:border-brand-300 transition-all bg-white hover:bg-slate-50/50 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/40 has-[:checked]:ring-1 has-[:checked]:ring-brand-500">
+                <input type="radio" name="privacyOption" value="identified" checked onchange="handlePrivacyChange()" class="mt-0.5 text-brand-600 focus:ring-brand-500">
+                <div class="ml-3">
+                  <span class="block text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                    <i data-lucide="user" class="w-4 h-4 text-brand-600"></i>
+                    Identified Submission
+                  </span>
+                  <span class="block text-xs text-slate-500 mt-1">
+                    Your Name and ERP/PRN will be shared confidentially with the Chief Proctor and Ombudsman for expedited personal redressal.
+                  </span>
+                </div>
+              </label>
+
+              <!-- Option B: Anonymous -->
+              <label class="relative flex p-4 cursor-pointer rounded-xl border border-slate-200 hover:border-brand-300 transition-all bg-white hover:bg-slate-50/50 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/40 has-[:checked]:ring-1 has-[:checked]:ring-brand-500">
+                <input type="radio" name="privacyOption" value="anonymous" onchange="handlePrivacyChange()" class="mt-0.5 text-brand-600 focus:ring-brand-500">
+                <div class="ml-3">
+                  <span class="block text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                    <i data-lucide="ghost" class="w-4 h-4 text-purple-600"></i>
+                    Anonymous (Identity Masked)
+                  </span>
+                  <span class="block text-xs text-slate-500 mt-1">
+                    Name and ERP/PRN are scrubbed. Only your Academic Year & Division are retained for administrative batch routing.
+                  </span>
+                </div>
+              </label>
+
+            </div>
+
+            <!-- Whistleblower Protection Checkbox -->
+            <div class="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3 transition-colors" id="whistleblower-wrapper">
+              <input type="checkbox" id="whistleblowerCheck" onchange="handleWhistleblowerChange()" class="mt-1 w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500 cursor-pointer">
+              <div class="text-xs space-y-1">
+                <label for="whistleblowerCheck" class="font-bold text-slate-800 cursor-pointer flex items-center gap-1.5">
+                  <i data-lucide="shield" class="w-4 h-4 text-amber-600"></i>
+                  Enable Statutory Whistleblower Protection Protocol
+                </label>
+                <p class="text-slate-500 leading-relaxed">
+                  Applies zero-retention metadata stripping, prevents tracking of client telemetry, and locks records from routine department inspection. Under the Supreme Court Anti-Ragging Mandate, no disciplinary action may be initiated against bona fide whistleblowers.
+                </p>
+                <div id="whistleblower-badge" class="hidden items-center gap-1.5 text-emerald-700 font-semibold pt-1">
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                  <span>Active: Submissions are tagged with high-priority whistleblower protection flags in MySQL.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: Student Credentials Bar -->
+          <div>
+            <div class="pb-3 border-b border-slate-100">
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-brand-100 text-brand-700 text-xs font-bold">2</span>
+                College Credentials & Academic Routing
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Required for academic division routing and verification.</p>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              
+              <!-- Student Name -->
+              <div id="name-field-container">
+                <label for="studentName" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Student Full Name <span class="text-rose-500" id="name-required-star">*</span>
+                </label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                  </span>
+                  <input type="text" id="studentName" required placeholder="e.g. Rohan V. Sharma" 
+                    class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                </div>
+              </div>
+
+              <!-- ERP / PRN Number -->
+              <div id="erp-field-container">
+                <label for="studentErp" class="block text-xs font-semibold text-slate-700 mb-1">
+                  College ERP / PRN Number <span class="text-rose-500" id="erp-required-star">*</span>
+                </label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="id-card" class="w-4 h-4"></i>
+                  </span>
+                  <input type="text" id="studentErp" required placeholder="e.g. PRN-2023-88412" 
+                    class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed font-mono text-xs">
+                </div>
+              </div>
+
+              <!-- College Email -->
+              <div id="email-field-container">
+                <label for="studentEmail" class="block text-xs font-semibold text-slate-700 mb-1">
+                  College Official Email <span class="text-rose-500" id="email-required-star">*</span>
+                </label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                  </span>
+                  <input type="email" id="studentEmail" required placeholder="e.g. rohan.s@campus.edu.in" 
+                    class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all bg-white disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed">
+                </div>
+              </div>
+
+              <!-- Department Selector -->
+              <div>
+                <label for="studentDept" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Department / Program <span class="text-rose-500">*</span>
+                </label>
+                <select id="studentDept" required class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white transition-all">
+                  <option value="">Select Department...</option>
+                  <option value="Computer Engineering">Computer Engineering</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Electronics & Telecom">Electronics & Telecom (ENTC)</option>
+                  <option value="Mechanical Engineering">Mechanical Engineering</option>
+                  <option value="Civil Engineering">Civil Engineering</option>
+                  <option value="Electrical Engineering">Electrical Engineering</option>
+                  <option value="Management Studies (MBA)">Management Studies (MBA)</option>
+                  <option value="Applied Sciences & Humanities">Applied Sciences & Humanities (First Year)</option>
+                </select>
+              </div>
+
+              <!-- Academic Year -->
+              <div>
+                <label for="studentYear" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Academic Year <span class="text-rose-500">*</span>
+                </label>
+                <select id="studentYear" required class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white transition-all">
+                  <option value="">Select Academic Year...</option>
+                  <option value="FE (First Year)">FE (First Year - Fresher)</option>
+                  <option value="SE (Second Year)">SE (Second Year - Sophomore)</option>
+                  <option value="TE (Third Year)">TE (Third Year - Junior)</option>
+                  <option value="BE (Final Year)">BE (Final Year - Senior)</option>
+                  <option value="Postgraduate / M.Tech">Postgraduate / M.Tech / PhD</option>
+                </select>
+              </div>
+
+              <!-- Division -->
+              <div>
+                <label for="studentDivision" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Class Division / Section <span class="text-rose-500">*</span>
+                </label>
+                <select id="studentDivision" required class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white transition-all">
+                  <option value="">Select Division...</option>
+                  <option value="Division A">Division A</option>
+                  <option value="Division B">Division B</option>
+                  <option value="Division C">Division C</option>
+                  <option value="Division D">Division D</option>
+                  <option value="Hostel Resident Wing">Hostel Resident (Non-Class Specific)</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SECTION 3: Incident Category & Priority -->
+          <div>
+            <div class="pb-3 border-b border-slate-100">
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-brand-100 text-brand-700 text-xs font-bold">3</span>
+                Incident Classification & Category
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Anti-ragging and physical harassment automatically trigger high-priority alerts.</p>
+            </div>
+
+            <!-- Category Selection Cards -->
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="categoryCards">
+              
+              <!-- Anti-Ragging (High Priority) -->
+              <label class="relative flex flex-col p-4 cursor-pointer rounded-xl border border-rose-200 bg-rose-50/50 hover:bg-rose-50 transition-all has-[:checked]:border-rose-600 has-[:checked]:bg-rose-100/60 has-[:checked]:ring-2 has-[:checked]:ring-rose-500">
+                <input type="radio" name="incidentCategory" value="Anti-Ragging / Harassment" checked onchange="handleCategoryChange()" class="sr-only">
+                <div class="flex items-center justify-between">
+                  <div class="p-2 bg-rose-100 text-rose-700 rounded-lg">
+                    <i data-lucide="alert-octagon" class="w-5 h-5"></i>
+                  </div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-600 text-white tracking-wider uppercase">
+                    CRITICAL
+                  </span>
+                </div>
+                <span class="mt-3 text-sm font-bold text-slate-900">Anti-Ragging / Harassment</span>
+                <p class="text-[11px] text-slate-500 mt-1 leading-snug">Physical coercion, intimidation, verbal assault, hostel bullying, or hazing.</p>
+              </label>
+
+              <!-- Academic Bias -->
+              <label class="relative flex flex-col p-4 cursor-pointer rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/60 has-[:checked]:ring-2 has-[:checked]:ring-brand-500">
+                <input type="radio" name="incidentCategory" value="Academic Bias / Faculty Targeting" onchange="handleCategoryChange()" class="sr-only">
+                <div class="flex items-center justify-between">
+                  <div class="p-2 bg-amber-100 text-amber-700 rounded-lg">
+                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                  </div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 tracking-wider uppercase">
+                    HIGH
+                  </span>
+                </div>
+                <span class="mt-3 text-sm font-bold text-slate-900">Academic Bias / Faculty Targeting</span>
+                <p class="text-[11px] text-slate-500 mt-1 leading-snug">Unfair evaluation, discriminatory internal marks, viva targeting, or intentional failing.</p>
+              </label>
+
+              <!-- Irregular Lectures -->
+              <label class="relative flex flex-col p-4 cursor-pointer rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/60 has-[:checked]:ring-2 has-[:checked]:ring-brand-500">
+                <input type="radio" name="incidentCategory" value="Irregular Lectures / Teaching Quality" onchange="handleCategoryChange()" class="sr-only">
+                <div class="flex items-center justify-between">
+                  <div class="p-2 bg-blue-100 text-blue-700 rounded-lg">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                  </div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800 tracking-wider uppercase">
+                    MEDIUM
+                  </span>
+                </div>
+                <span class="mt-3 text-sm font-bold text-slate-900">Irregular Lectures / Quality</span>
+                <p class="text-[11px] text-slate-500 mt-1 leading-snug">Chronic teacher absenteeism, incomplete syllabus, or substandard lab practical guidance.</p>
+              </label>
+
+              <!-- Infrastructure / Hostel Issue -->
+              <label class="relative flex flex-col p-4 cursor-pointer rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/60 has-[:checked]:ring-2 has-[:checked]:ring-brand-500">
+                <input type="radio" name="incidentCategory" value="Infrastructure / Hostel Issue" onchange="handleCategoryChange()" class="sr-only">
+                <div class="flex items-center justify-between">
+                  <div class="p-2 bg-emerald-100 text-emerald-700 rounded-lg">
+                    <i data-lucide="building" class="w-5 h-5"></i>
+                  </div>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 tracking-wider uppercase">
+                    STANDARD
+                  </span>
+                </div>
+                <span class="mt-3 text-sm font-bold text-slate-900">Hostel & Infrastructure Issue</span>
+                <p class="text-[11px] text-slate-500 mt-1 leading-snug">Sanitation hazards, drinking water, mess hygiene, security gate violations, or equipment breakdown.</p>
+              </label>
+
+            </div>
+
+            <!-- Dynamic Alert / Recommendation Box -->
+            <div id="categoryAdviceBox" class="mt-3 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="info" class="w-4 h-4 text-rose-600 shrink-0"></i>
+                <span>Anti-Ragging complaints immediately trigger an automated SMS/alert to the Anti-Ragging Committee & Dean of Student Affairs.</span>
+              </div>
+              <span class="shrink-0 font-bold bg-rose-200/80 px-2 py-0.5 rounded text-[10px] text-rose-900">UGC Regulation 2009</span>
+            </div>
+          </div>
+
+          <!-- SECTION 4: Location & GPS Geotagging -->
+          <div>
+            <div class="pb-3 border-b border-slate-100">
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-brand-100 text-brand-700 text-xs font-bold">4</span>
+                Campus Location & Incident Spot
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Specify where the incident took place to help patrol units cross-reference CCTV footage.</p>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+              
+              <!-- Campus Building / Zone Dropdown -->
+              <div>
+                <label for="incidentBuilding" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Campus Building / Zone <span class="text-rose-500">*</span>
+                </label>
+                <select id="incidentBuilding" required class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white transition-all">
+                  <option value="">Select Campus Location...</option>
+                  <option value="Hostel Block B (Boys)">Hostel Block B (Boys)</option>
+                  <option value="Hostel Block A (Girls)">Hostel Block A (Girls)</option>
+                  <option value="Central Canteen / Food Court">Central Canteen / Food Court</option>
+                  <option value="Computer Lab 304 / IT Block">Computer Lab 304 / IT Block</option>
+                  <option value="Mechanical Workshop">Mechanical Workshop</option>
+                  <option value="Central Library & Reading Hall">Central Library & Reading Hall</option>
+                  <option value="Sports Complex / Ground Pavilion">Sports Complex / Ground Pavilion</option>
+                  <option value="Main Administrative Building">Main Administrative Building</option>
+                  <option value="Campus Parking & Back Gate">Campus Parking & Back Gate</option>
+                  <option value="Off-Campus College Transit Bus">Off-Campus College Transit Bus</option>
+                </select>
+              </div>
+
+              <!-- Specific Room / Spot -->
+              <div>
+                <label for="incidentSpot" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Specific Spot / Floor / Room Number <span class="text-rose-500">*</span>
+                </label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                  </span>
+                  <input type="text" id="incidentSpot" required placeholder="e.g. 2nd Floor Corridor near Water Dispenser" 
+                    class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white transition-all">
+                </div>
+              </div>
+
+              <!-- Geolocation Button & Badge -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                  GPS Geotag Verification
+                </label>
+                <div class="flex flex-col gap-2">
+                  <button type="button" onclick="captureGPSLocation()" id="gpsBtn" class="flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition-colors">
+                    <i data-lucide="crosshair" class="w-4 h-4 text-brand-600"></i>
+                    <span id="gpsBtnText">📍 Attach Current GPS Location</span>
+                  </button>
+                  <input type="hidden" id="gpsCoordinates" value="">
+                  <div id="gpsStatusPill" class="hidden text-[11px] p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-1.5 font-mono">
+                    <i data-lucide="check-check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                    <span id="gpsText">Lat: 18.5204° N, Long: 73.8567° E (±5m)</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SECTION 5: Description & Evidence File Upload -->
+          <div>
+            <div class="pb-3 border-b border-slate-100">
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-brand-100 text-brand-700 text-xs font-bold">5</span>
+                Incident Narrative & Digital Evidence
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Provide a chronological account, names of perpetrators (if known), and attach photos/audio.</p>
+            </div>
+
+            <div class="mt-4 space-y-4">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="incidentDate" class="block text-xs font-semibold text-slate-700 mb-1">
+                    Date & Time of Incident <span class="text-rose-500">*</span>
+                  </label>
+                  <input type="datetime-local" id="incidentDate" required class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white">
+                </div>
+
+                <div>
+                  <label for="witnessNames" class="block text-xs font-semibold text-slate-700 mb-1">
+                    Witnesses or Accused Persons (Optional)
+                  </label>
+                  <input type="text" id="witnessNames" placeholder="e.g. 3 Senior students from Mech Dept / Lab In-charge" 
+                    class="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white">
+                </div>
+              </div>
+
+              <!-- Narrative Description -->
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <label for="incidentDescription" class="block text-xs font-semibold text-slate-700">
+                    Comprehensive Incident Description <span class="text-rose-500">*</span>
+                  </label>
+                  <span id="charCount" class="text-[11px] text-slate-400">0 / 2000 chars</span>
+                </div>
+                <textarea id="incidentDescription" required rows="4" maxlength="2000" oninput="updateCharCount()"
+                  placeholder="Describe what occurred, any specific threats made, emotional or physical distress, repetitive patterns, or evidence available..." 
+                  class="w-full p-3 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white transition-all"></textarea>
+              </div>
+
+              <!-- File Upload UI -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                  Supporting Evidence (Photos, Audio Clips, Screenshots, Medical Slips)
+                </label>
+                <div id="dropZone" onclick="document.getElementById('evidenceFile').click()" class="border-2 border-dashed border-slate-300 hover:border-brand-400 rounded-xl p-6 text-center cursor-pointer transition-colors bg-slate-50/50 hover:bg-slate-50">
+                  <input type="file" id="evidenceFile" multiple accept="image/*,audio/*,.pdf,.doc,.docx" class="hidden" onchange="handleFileSelect(event)">
+                  <div class="flex flex-col items-center justify-center gap-2">
+                    <div class="w-10 h-10 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+                      <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <p class="text-xs sm:text-sm font-semibold text-slate-700">Click to upload or drag & drop files here</p>
+                      <p class="text-[11px] text-slate-400 mt-0.5">PNG, JPG, MP3, MP4, PDF, or DOC (Max 10MB per file). Stored with SHA-256 fingerprint.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Selected Files Container -->
+                <div id="attachedFilesList" class="mt-2 space-y-1.5"></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Submission Disclaimer & Button -->
+          <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+              <span>All reports are stored securely in MySQL and protected under UGC Anti-Ragging Mandates.</span>
+            </div>
+
+            <button type="submit" id="submitBtn" class="w-full sm:w-auto px-8 py-3 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold text-sm rounded-xl shadow-lg shadow-brand-500/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Submit Official Complaint</span>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      </div> <!-- /studentPortalContent -->
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: TRACK COMPLAINT STATUS -->
+    <!-- ======================================================== -->
+    <section id="view-track" class="space-y-6 hidden">
+
+      <!-- Track Header & Quick Demonstration Credentials -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+        <div>
+          <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <i data-lucide="search-check" class="w-6 h-6 text-brand-600"></i>
+            Grievance Tracking & Secure Inquiry Terminal
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Enter your unique <strong>Tracking ID</strong> and <strong>6-Digit Secret PIN</strong> issued at the time of lodging the report.
+          </p>
+        </div>
+
+        <!-- Quick Demo Pill Helper for Test Evaluator -->
+        <div class="p-3 bg-brand-50/70 border border-brand-200/80 rounded-xl text-xs text-brand-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="lightbulb" class="w-4 h-4 text-brand-600 shrink-0"></i>
+            <span><strong>Quick Test Preloaded Records (MySQL):</strong> Click any badge to auto-fill credentials:</span>
+          </div>
+          <div class="flex flex-wrap gap-2" id="quick-demo-badges">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- Search Bar Form -->
+        <form onsubmit="handleTrackSearch(event)" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+          <div class="sm:col-span-5">
+            <label for="trackIdInput" class="block text-xs font-semibold text-slate-700 mb-1">
+              Complaint Tracking ID
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-mono text-xs">
+                #
+              </span>
+              <input type="text" id="trackIdInput" required placeholder="e.g. CMP-2026-8F3A2K" 
+                class="w-full pl-8 pr-3 py-2.5 text-sm font-mono uppercase tracking-wider rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+            </div>
+          </div>
+
+          <div class="sm:col-span-4">
+            <label for="trackPinInput" class="block text-xs font-semibold text-slate-700 mb-1">
+              6-Digit Secret Security PIN
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="key-round" class="w-4 h-4"></i>
+              </span>
+              <input type="password" maxlength="6" id="trackPinInput" required placeholder="••••••" 
+                class="w-full pl-9 pr-3 py-2.5 text-sm font-mono tracking-widest rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+            </div>
+          </div>
+
+          <div class="sm:col-span-3">
+            <button type="submit" class="w-full py-2.5 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md shadow-brand-500/20 transition-all flex items-center justify-center gap-2">
+              <i data-lucide="search" class="w-4 h-4"></i>
+              <span>Verify & Track</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Error Feedback Container -->
+        <div id="trackErrorMsg" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 shrink-0"></i>
+          <span id="trackErrorText">Invalid Tracking ID or Secret PIN. Please verify credentials.</span>
+        </div>
+      </div>
+
+      <!-- TRACKING RESULTS CONTAINER (Initially hidden until search) -->
+      <div id="trackResultContainer" class="hidden space-y-6">
+
+        <!-- Top Card: Summary & Status Header -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+          <div class="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-slate-100">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-lg sm:text-xl font-bold text-slate-900" id="res-tracking-id">CMP-2026-8F3A2K</span>
+                <button onclick="copyTrackingDetails()" title="Copy Tracking ID" class="p-1 text-slate-400 hover:text-slate-600 rounded">
+                  <i data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+              </div>
+              <p class="text-xs text-slate-500 mt-1 flex items-center gap-2 flex-wrap">
+                <span id="res-timestamp"><i data-lucide="calendar" class="w-3.5 h-3.5 inline"></i> Oct 12, 2026</span>
+                <span>•</span>
+                <span id="res-location"><i data-lucide="map-pin" class="w-3.5 h-3.5 inline"></i> Hostel Block B</span>
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap" id="res-badges">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- STEP PROGRESS TIMELINE (Submitted -> Assigned -> In Progress -> Resolved) -->
+          <div class="py-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-6">Investigation Progress Pipeline</h3>
+            
+            <div class="relative">
+              <!-- Connecting Line -->
+              <div class="absolute top-5 left-6 right-6 h-1 bg-slate-200 -z-0 hidden sm:block" id="timeline-bar"></div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 sm:gap-2 relative z-10" id="timeline-steps">
+                <!-- Dynamically injected steps -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Incident Particulars Accordion / Details -->
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-slate-700">Complaint Overview & Recorded Allegation</span>
+              <span id="res-anonymity-tag" class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+                Anonymous Identity
+              </span>
+            </div>
+            <p id="res-description" class="text-xs sm:text-sm text-slate-800 leading-relaxed font-sans"></p>
+            
+            <div class="pt-2 border-t border-slate-200/70 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <div>
+                <span class="text-slate-400 block text-[10px] uppercase font-semibold">Department</span>
+                <span id="res-dept" class="font-medium text-slate-800">Computer Engg</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[10px] uppercase font-semibold">Year & Div</span>
+                <span id="res-year-div" class="font-medium text-slate-800">FE - Div A</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[10px] uppercase font-semibold">Accused / Target</span>
+                <span id="res-accused" class="font-medium text-slate-800">Unspecified</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[10px] uppercase font-semibold">GPS Coords</span>
+                <span id="res-gps" class="font-mono text-slate-800 text-[11px]">18.5204° N, 73.8567° E</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Official Remarks Box from Admin -->
+          <div class="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50/70 to-indigo-50/50 p-5 space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wide flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i>
+                Official Findings & Directive from Vigilance Cell
+              </h4>
+              <span id="res-remarks-date" class="text-[11px] text-blue-700 font-medium">Updated Recently</span>
+            </div>
+            <p id="res-remarks-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+              "The Proctorial Board has initiated an inquiry. Witness statements are being recorded in strict secrecy. Hostel warden instructed to review CCTV logs."
+            </p>
+          </div>
+
+        </div>
+
+        <!-- ANONYMOUS 2-WAY CHAT COMPONENT -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="message-square-more" class="w-5 h-5 text-brand-600"></i>
+                Anonymous 2-Way Ombudsman Dialogue
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Send notes, respond to queries, or provide supplementary evidence directly to the Anti-Ragging Committee in MySQL.
+              </p>
+            </div>
+            <span class="inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Secure Relay Active
+            </span>
+          </div>
+
+          <!-- Chat Messages Scroll Container -->
+          <div id="chatMessagesList" class="bg-slate-50 rounded-xl p-4 border border-slate-200 min-h-[220px] max-h-[380px] overflow-y-auto space-y-3">
+            <!-- Messages rendered dynamically -->
+          </div>
+
+          <!-- Chat Input Bar -->
+          <form onsubmit="handleSendChatMessage(event)" class="flex gap-2">
+            <input type="text" id="chatInputText" required placeholder="Type an encrypted message or evidence reference to the committee..." 
+              class="flex-1 px-4 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+            <button type="submit" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Send Note</span>
+            </button>
+          </form>
+          <p class="text-[11px] text-slate-400 text-center">
+            Messages are signed with your Complaint Key. Neither IP address nor browser fingerprints are logged.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: ADMIN & ANALYTICS DASHBOARD (GATED BY ADMIN LOGIN) -->
+    <!-- ======================================================== -->
+    <section id="view-admin" class="space-y-6 hidden">
+
+      <!-- GATE 1: ADMIN LOGIN CHALLENGE SCREEN (Visible when not logged in as Admin) -->
+      <div id="adminLoginGate" class="max-w-md mx-auto my-12 bg-white rounded-3xl border border-slate-200 shadow-xl p-8 space-y-6 text-center">
+        <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center mx-auto shadow-inner">
+          <i data-lucide="shield-lock" class="w-8 h-8 text-indigo-600"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Proctorial Board Access</h2>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+            Statutory administration area restricted to Chief Proctor, Vigilance Officers, and Anti-Ragging Committee Members.
+          </p>
+        </div>
+
+        <!-- 1-Click Demo Fill for Admin Evaluator -->
+        <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200 text-left text-xs text-indigo-900 flex items-center justify-between gap-2">
+          <div>
+            <span class="font-bold block">Demo Admin Credentials:</span>
+            <span class="font-mono text-[11px] text-slate-600">admin@campus.edu.in / admin123</span>
+          </div>
+          <button type="button" onclick="autoFillAdminLogin()" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold text-[11px] transition">
+            Auto-Fill
+          </button>
+        </div>
+
+        <form onsubmit="handleAdminGateLogin(event)" class="space-y-4 text-left">
+          <div>
+            <label for="adminGateEmail" class="block text-xs font-semibold text-slate-700 mb-1">
+              Institutional Admin Email
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+              </span>
+              <input type="email" id="adminGateEmail" required placeholder="admin@campus.edu.in" 
+                class="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
+            </div>
+          </div>
+
+          <div>
+            <label for="adminGatePassword" class="block text-xs font-semibold text-slate-700 mb-1">
+              Security Authorization Password
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+              </span>
+              <input type="password" id="adminGatePassword" required placeholder="••••••••" 
+                class="w-full pl-9 pr-3 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
+            </div>
+          </div>
+
+          <div id="adminGateError" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-1.5">
+            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+            <span id="adminGateErrorText">Invalid administrator credentials.</span>
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="key" class="w-4 h-4 text-indigo-300"></i>
+            <span>Authenticate & Unlock Admin Panel</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- GATE 2: MUTUAL EXCLUSIVITY CONFLICT GATE -->
+      <!-- (Visible when user is currently authenticated as STUDENT) -->
+      <!-- ======================================================== -->
+      <div id="adminRoleConflictGate" class="max-w-md mx-auto my-12 bg-white rounded-3xl border border-amber-200 shadow-xl p-8 space-y-6 text-center hidden">
+        <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto shadow-inner">
+          <i data-lucide="shield-alert" class="w-8 h-8 text-amber-600"></i>
+        </div>
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            Active Student Session Detected
+          </span>
+          <h2 class="text-xl font-extrabold text-slate-900 tracking-tight mt-3">Access Restricted to Administrators</h2>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            You are currently authenticated in the <strong>Student Portal</strong> as <strong id="adminConflictStudentName" class="text-slate-900">Student</strong>.
+          </p>
+          <div class="p-3 my-3 bg-rose-50 border border-rose-200 rounded-xl text-left text-xs text-rose-800 flex items-start gap-2">
+            <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <p class="leading-relaxed">
+              <strong>Strict Mutual Exclusivity Rule:</strong> By statutory regulations, students are strictly barred from the Proctorial Board Panel. No user may operate both the Student Panel and the Admin Panel at the same time.
+            </p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <button onclick="logoutAndSwitch('admin')" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-indigo-600/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            <span>Log Out Student & Open Admin Login</span>
+          </button>
+          <button onclick="switchTab('submit')" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition cursor-pointer">
+            Return to Student Portal
+          </button>
+        </div>
+      </div>
+
+      <!-- GATE 3: ACTUAL ADMIN DASHBOARD CONTENT (Unlocked when logged in as Admin) -->
+      <div id="adminDashboardContent" class="hidden space-y-6">
+
+        <!-- Admin Header with Live Status & UGC Export -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+          <div>
+            <div class="flex items-center gap-2.5">
+              <div class="p-2 rounded-lg bg-indigo-50 text-indigo-700">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                  Vigilance Council & Anti-Ragging Dashboard
+                </h1>
+                <p class="text-xs text-slate-500 mt-0.5">Statutory Oversight, Hotspot Geospatial Analytics & Incident Redressal (MySQL Synchronized)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <button onclick="exportComplianceCSV()" class="px-4 py-2 text-xs font-bold rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 transition flex items-center gap-2 shadow-sm">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
+              <span>Export CSV</span>
+            </button>
+            <button onclick="triggerPrintComplianceReport()" class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition flex items-center gap-2 shadow-md">
+              <i data-lucide="printer" class="w-4 h-4 text-brand-300"></i>
+              <span>UGC Compliance PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- TOP METRIC CARDS -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- Total Complaints -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Total Grievances</span>
+              <span class="p-2 rounded-xl bg-blue-50 text-blue-600"><i data-lucide="folder-kanban" class="w-4 h-4"></i></span>
+            </div>
+            <div class="mt-4">
+              <span id="metric-total" class="text-2xl sm:text-3xl font-extrabold text-slate-900">0</span>
+              <div class="mt-1 flex items-center gap-1 text-[11px] text-slate-500">
+                <span>Stored in MySQL Database</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending / In-Progress -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Active Investigations</span>
+              <span class="p-2 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="clock" class="w-4 h-4"></i></span>
+            </div>
+            <div class="mt-4">
+              <span id="metric-pending" class="text-2xl sm:text-3xl font-extrabold text-amber-600">0</span>
+              <div class="mt-1 flex items-center gap-1 text-[11px] text-amber-700 font-medium">
+                <span id="metric-critical-count">0 Critical Anti-Ragging</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resolved Rate -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Resolution Rate</span>
+              <span class="p-2 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="check-circle-2" class="w-4 h-4"></i></span>
+            </div>
+            <div class="mt-4">
+              <span id="metric-resolved-rate" class="text-2xl sm:text-3xl font-extrabold text-emerald-600">0%</span>
+              <div class="mt-1 flex items-center gap-1 text-[11px] text-slate-500">
+                <span id="metric-resolved-count">0 Resolved</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Whistleblower Protection Flags -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-500">Whistleblower Cases</span>
+              <span class="p-2 rounded-xl bg-purple-50 text-purple-600"><i data-lucide="shield-alert" class="w-4 h-4"></i></span>
+            </div>
+            <div class="mt-4">
+              <span id="metric-whistleblower" class="text-2xl sm:text-3xl font-extrabold text-purple-700">0</span>
+              <div class="mt-1 flex items-center gap-1 text-[11px] text-purple-700 font-medium">
+                <span>Strict identity encapsulation</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ANALYTICS ROW: Incident Hotspots + Category Breakdown -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Incident Hotspots Panel (2 cols on lg) -->
+          <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="flame" class="w-4 h-4 text-rose-500"></i>
+                  Campus Incident Hotspots & Vulnerability Mapping
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Geospatial concentration of grievances across campus zones</p>
+              </div>
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600">MySQL Live Hotspots</span>
+            </div>
+
+            <!-- Hotspots Progress Bars List -->
+            <div id="hotspotsContainer" class="space-y-3.5 pt-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Category Distribution Panel -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div>
+              <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-brand-600"></i>
+                Grievance Types
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Breakdown by statutory violation</p>
+            </div>
+
+            <div id="categoryBreakdownContainer" class="space-y-3 pt-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RECENT COMPLAINTS REGISTRY & LIVE STREAM FEED -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          
+          <!-- Feed Top Header -->
+          <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </span>
+              <div>
+                <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                  Live Incident Registry & Proctorial Queue
+                </h2>
+                <p class="text-xs text-slate-500">Stored in MySQL. Click any case to update investigation status or reply to student.</p>
+              </div>
+            </div>
+
+            <!-- Filter / Search Controls -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <select id="adminFilterCategory" onchange="renderAdminFeed()" class="px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white font-medium text-slate-700 focus:ring-1 focus:ring-brand-500">
+                <option value="ALL">All Categories</option>
+                <option value="Anti-Ragging / Harassment">Anti-Ragging Only</option>
+                <option value="Academic Bias / Faculty Targeting">Academic Bias</option>
+                <option value="Irregular Lectures / Teaching Quality">Irregular Lectures</option>
+                <option value="Infrastructure / Hostel Issue">Infrastructure</option>
+              </select>
+
+              <select id="adminFilterStatus" onchange="renderAdminFeed()" class="px-3 py-1.5 text-xs rounded-xl border border-slate-300 bg-white font-medium text-slate-700 focus:ring-1 focus:ring-brand-500">
+                <option value="ALL">All Statuses</option>
+                <option value="Submitted">Submitted (New)</option>
+                <option value="Under Investigation">Under Investigation</option>
+                <option value="Action Taken">Action Taken</option>
+                <option value="Resolved">Resolved / Solved</option>
+                <option value="Dismissed">Dismissed</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Registry Cards / Stream List -->
+          <div id="adminFeedList" class="divide-y divide-slate-100">
+            <!-- Dynamically populated list of complaints -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: STUDENT AUTHENTICATION (LOGIN & REGISTRATION) -->
+  <!-- ======================================================== -->
+  <div id="studentAuthModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-xl bg-brand-100 text-brand-700">
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Student Portal Access</h3>
+            <p class="text-[11px] text-slate-500">Enrolled Student Account</p>
+          </div>
+        </div>
+        <button onclick="closeStudentAuthModal()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Tab Switcher: Sign In vs. Register -->
+      <div class="flex p-1 bg-slate-100 rounded-xl">
+        <button id="modal-tab-signin" onclick="switchAuthTab('signin')" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-white shadow-sm text-slate-900 transition">
+          Student Sign In
+        </button>
+        <button id="modal-tab-register" onclick="switchAuthTab('register')" class="flex-1 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition">
+          New Student Register
+        </button>
+      </div>
+
+      <!-- Quick Demo Badges for Evaluator -->
+      <div id="student-demo-fill-box" class="p-3 bg-brand-50/70 border border-brand-200/80 rounded-xl text-xs space-y-1.5">
+        <span class="font-bold text-brand-900 block text-[11px]">1-Click Student Demo Accounts:</span>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" onclick="autoFillStudent('student@campus.edu.in', 'student123')" class="px-2 py-1 rounded bg-white hover:bg-brand-100 border border-brand-300 font-medium text-[11px] text-slate-800 transition">
+            🎓 Rohan V. Sharma
+          </button>
+          <button type="button" onclick="autoFillStudent('ananya@campus.edu.in', 'student123')" class="px-2 py-1 rounded bg-white hover:bg-brand-100 border border-brand-300 font-medium text-[11px] text-slate-800 transition">
+            🎓 Ananya Deshmukh
+          </button>
+        </div>
+      </div>
+
+      <!-- SIGN IN FORM -->
+      <form id="studentSignInForm" onsubmit="handleStudentLogin(event)" class="space-y-4">
+        <div>
+          <label for="studentLoginEmail" class="block text-xs font-semibold text-slate-700 mb-1">
+            College Official Email
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </span>
+            <input type="email" id="studentLoginEmail" required placeholder="student@campus.edu.in" 
+              class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+          </div>
+        </div>
+
+        <div>
+          <label for="studentLoginPassword" class="block text-xs font-semibold text-slate-700 mb-1">
+            Account Password
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </span>
+            <input type="password" id="studentLoginPassword" required placeholder="••••••••" 
+              class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+          </div>
+        </div>
+
+        <div id="studentAuthError" class="hidden p-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+          Invalid email or password.
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition">
+          Sign In to Student Portal
+        </button>
+      </form>
+
+      <!-- REGISTRATION FORM (Initially Hidden) -->
+      <form id="studentRegisterForm" onsubmit="handleStudentRegister(event)" class="hidden space-y-3">
+        <div>
+          <label for="regName" class="block text-[11px] font-semibold text-slate-700 mb-0.5">Full Name</label>
+          <input type="text" id="regName" required placeholder="e.g. Vikramaditya Patil" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 bg-white">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label for="regPrn" class="block text-[11px] font-semibold text-slate-700 mb-0.5">ERP / PRN Number</label>
+            <input type="text" id="regPrn" required placeholder="PRN-2024-99001" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 font-mono bg-white">
+          </div>
+          <div>
+            <label for="regEmail" class="block text-[11px] font-semibold text-slate-700 mb-0.5">College Email</label>
+            <input type="email" id="regEmail" required placeholder="vikram.p@campus.edu.in" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label for="regDept" class="block text-[11px] font-semibold text-slate-700 mb-0.5">Department</label>
+            <select id="regDept" required class="w-full px-2 py-1.5 text-xs rounded-lg border border-slate-300 bg-white">
+              <option value="Computer Engineering">Computer Engg</option>
+              <option value="Information Technology">IT</option>
+              <option value="Mechanical Engineering">Mechanical</option>
+              <option value="Civil Engineering">Civil</option>
+              <option value="Electronics & Telecom">ENTC</option>
+            </select>
+          </div>
+          <div>
+            <label for="regYear" class="block text-[11px] font-semibold text-slate-700 mb-0.5">Year & Div</label>
+            <select id="regYear" required class="w-full px-2 py-1.5 text-xs rounded-lg border border-slate-300 bg-white">
+              <option value="FE (First Year)">FE - Div A</option>
+              <option value="SE (Second Year)">SE - Div B</option>
+              <option value="TE (Third Year)">TE - Div A</option>
+              <option value="BE (Final Year)">BE - Div B</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="regPassword" class="block text-[11px] font-semibold text-slate-700 mb-0.5">Choose Password</label>
+          <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 bg-white">
+        </div>
+
+        <div id="studentRegError" class="hidden p-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+          Registration failed.
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md transition">
+          Create Student Account & Save to MySQL
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CONFIRMATION & SECRET CREDENTIALS MODAL -->
+  <!-- ======================================================== -->
+  <div id="confirmationModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6 transform transition-all animate-in fade-in zoom-in-95 duration-200">
+      
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-md">
+          <i data-lucide="shield-check" class="w-8 h-8"></i>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900">Complaint Registered Successfully</h3>
+        <p class="text-xs text-slate-500">
+          Your complaint is safely encrypted, stored in <strong>MySQL database</strong>, and routed to the Vigilance Committee. 
+          Save your tracking credentials immediately.
+        </p>
+      </div>
+
+      <!-- Credential Card Box -->
+      <div class="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-2xl p-5 text-white space-y-4 shadow-lg border border-slate-800">
+        <div>
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Complaint Tracking ID</span>
+          <div class="flex items-center justify-between mt-1">
+            <span id="modalTrackingId" class="font-mono text-lg sm:text-xl font-bold tracking-wider text-brand-300">CMP-2026-XXXXXX</span>
+            <button onclick="copyModalId()" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 rounded text-xs font-semibold flex items-center gap-1 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="modalCopyIdText">Copy ID</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-white/10">
+          <span class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold">6-Digit Secret Inquiry PIN</span>
+          <div class="flex items-center justify-between mt-1">
+            <span id="modalSecretPin" class="font-mono text-2xl font-extrabold tracking-widest text-emerald-400">123456</span>
+            <button onclick="copyModalPin()" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 rounded text-xs font-semibold flex items-center gap-1 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="modalCopyPinText">Copy PIN</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Notice -->
+      <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5">
+        <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+        <p class="leading-relaxed">
+          <strong>Crucial Security Notice:</strong> Because this system supports anonymous whistleblower protection, we cannot recover your PIN if lost. Please screenshot or store this credential securely.
+        </p>
+      </div>
+
+      <!-- Modal Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="copyAllCredentialsAndTrack()" class="flex-1 py-3 px-4 bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2">
+          <i data-lucide="search" class="w-4 h-4"></i>
+          <span>Track Complaint Now</span>
+        </button>
+        <button onclick="closeConfirmationModal()" class="py-3 px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold rounded-xl transition">
+          Done
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ADMIN ACTION & CHAT DRAWER -->
+  <!-- ======================================================== -->
+  <div id="adminActionModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-start justify-between pb-3 border-b border-slate-100">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold" id="adminModalSubTitle">DOSSIER INSPECTION</span>
+          <h3 class="text-xl font-extrabold text-slate-900" id="adminModalTitle">Manage Complaint</h3>
+        </div>
+        <button onclick="closeAdminActionModal()" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Details Summary -->
+      <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-xs space-y-2" id="adminModalDetails">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Status & Remarks Update Form -->
+      <form onsubmit="handleAdminUpdateStatus(event)" class="space-y-4">
+        <input type="hidden" id="adminModalComplaintId">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="adminStatusSelect" class="block text-xs font-semibold text-slate-700 mb-1">
+              Update Investigation Status
+            </label>
+            <select id="adminStatusSelect" class="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white font-semibold">
+              <option value="Submitted">📝 Submitted (Pending Review)</option>
+              <option value="Under Investigation">🔍 Under Investigation (Squad Assigned)</option>
+              <option value="Action Taken">⚡ Action Taken / Hearing Conducted</option>
+              <option value="Resolved">✅ Resolved (Problem Solved & Redressed)</option>
+              <option value="Dismissed">❌ Dismissed (Inquiry Closed)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="adminPrioritySelect" class="block text-xs font-semibold text-slate-700 mb-1">
+              Statutory Priority Level
+            </label>
+            <select id="adminPrioritySelect" class="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white font-semibold">
+              <option value="CRITICAL">CRITICAL (Immediate Escalate)</option>
+              <option value="HIGH">HIGH Priority</option>
+              <option value="MEDIUM">MEDIUM Priority</option>
+              <option value="STANDARD">STANDARD</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="adminRemarksInput" class="block text-xs font-semibold text-slate-700 mb-1">
+            Official Committee Remarks / Redressal Directive (Visible to Student)
+          </label>
+          <textarea id="adminRemarksInput" rows="3" class="w-full p-3 text-xs sm:text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white" placeholder="Document the findings, committee actions, redressal outcome, or requirements for the student..."></textarea>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <button type="button" onclick="adminModalQuickSolve()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-emerald-600/20 transition flex items-center gap-1.5 cursor-pointer">
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            <span>Mark Problem as Solved & Resolved</span>
+          </button>
+
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closeAdminActionModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition">
+              Cancel
+            </button>
+            <button type="submit" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white text-xs sm:text-sm font-bold rounded-xl transition flex items-center gap-1.5 shadow-md">
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>Save Status & Remarks</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- 2-Way Chat Section in Admin Modal -->
+      <div class="pt-4 border-t border-slate-200 space-y-3">
+        <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+          <i data-lucide="message-square" class="w-4 h-4 text-brand-600"></i>
+          Ombudsman Channel with Lodging Student
+        </h4>
+
+        <div id="adminModalChatList" class="bg-slate-100 rounded-xl p-3 max-h-48 overflow-y-auto space-y-2 text-xs">
+          <!-- Dynamically populated -->
+        </div>
+
+        <form onsubmit="handleAdminSendMessage(event)" class="flex gap-2">
+          <input type="text" id="adminModalChatInput" placeholder="Send an encrypted response or instruction to the student..." class="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-300 bg-white">
+          <button type="submit" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition shrink-0">
+            Send Note
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: EMERGENCY SOS CALLOUT -->
+  <!-- ======================================================== -->
+  <div id="sosModal" class="fixed inset-0 z-50 bg-rose-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-rose-300 space-y-6 text-center">
+      <div class="w-16 h-16 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner pulse-alert">
+        <i data-lucide="phone-call" class="w-8 h-8 text-rose-600"></i>
+      </div>
+      <div>
+        <h3 class="text-xl font-extrabold text-slate-900">Immediate Anti-Ragging SOS Dispatch</h3>
+        <p class="text-xs text-slate-600 mt-1">If you are currently experiencing physical danger, coercion, or active harassment, contact the emergency squad directly.</p>
+      </div>
+
+      <div class="space-y-2 text-left text-xs font-medium">
+        <a href="tel:18001805522" class="flex items-center justify-between p-3 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-900 transition">
+          <div class="flex items-center gap-2">
+            <i data-lucide="phone" class="w-4 h-4 text-rose-600"></i>
+            <span>National Helpline (24x7 Toll Free)</span>
+          </div>
+          <span class="font-mono font-bold">1800-180-5522</span>
+        </a>
+
+        <a href="tel:+919422000100" class="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 transition">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield" class="w-4 h-4 text-brand-600"></i>
+            <span>Campus Security Quick Reaction Team</span>
+          </div>
+          <span class="font-mono font-bold">Ext: 911 / 100</span>
+        </a>
+
+        <a href="mailto:antiragging@apex.edu.in" class="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 transition">
+          <div class="flex items-center gap-2">
+            <i data-lucide="mail" class="w-4 h-4 text-brand-600"></i>
+            <span>Ombudsman Email Dispatch</span>
+          </div>
+          <span class="font-mono text-[11px]">antiragging@apex.edu.in</span>
+        </a>
+      </div>
+
+      <button onclick="closeSosModal()" class="w-full py-2.5 bg-slate-900 text-white font-bold text-xs rounded-xl hover:bg-slate-800 transition">
+        Return to Portal
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: UGC GUIDELINES HELP -->
+  <!-- ======================================================== -->
+  <div id="helpModal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="book-marked" class="w-5 h-5 text-brand-600"></i>
+          UGC Regulations On Curbing Ragging
+        </h3>
+        <button onclick="closeHelpModal()" class="p-1 text-slate-400 hover:text-slate-600 rounded">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+        <p><strong>What Constitutes Ragging?</strong></p>
+        <ul class="list-disc pl-4 space-y-1">
+          <li>Any conduct by words spoken or written, or by an act which has the effect of teasing, treating or handling with rudeness a fresher or any other student.</li>
+          <li>Indulging in rowdy or undisciplined activities which causes or is likely to cause annoyance, hardship or psychological harm.</li>
+          <li>Asking any student to do any act which such student will not in the ordinary course do and which has the effect of causing shame, torment or embarrassment.</li>
+        </ul>
+
+        <p class="pt-2 font-bold text-slate-800">Penal Consequences Under Indian Penal Code & Supreme Court Directives:</p>
+        <p>Suspension from attending classes, withholding scholarships, debarring from examinations, rustication from institution for periods ranging from 1 to 4 semesters, or expulsion from hostel and institution with mandatory FIR filing.</p>
+      </div>
+
+      <button onclick="closeHelpModal()" class="w-full py-2.5 bg-brand-600 text-white font-bold text-xs rounded-xl hover:bg-brand-700 transition">
+        Understood & Acknowledge
+      </button>
+    </div>
+  </div>
+
+  <!-- PRINT REPORT CONTAINER (Hidden on Screen, Visible on Print) -->
+  <div id="print-report-container" class="hidden">
+    <!-- Populated during triggerPrintComplianceReport -->
+  </div>
+
+  <!-- FLOATING TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- APPLICATION LOGIC SCRIPT -->
+  <script src="app.js"></script>
+
+</body>
+</html>
